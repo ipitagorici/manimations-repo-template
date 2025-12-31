@@ -1,7 +1,10 @@
 #!/bin/bash
 
+EXPORTS_FOLDER="./exports"
+CONFIG_FILE="./manim.cfg"
+
 create_export_folder() {
-    mkdir exports
+    mkdir $EXPORTS_FOLDER
 }
 
 render_manimation() {
@@ -26,7 +29,7 @@ render_manimation() {
 parse_args() {
     local resolution="16:9"
     local show_preview=false
-    local py_file="manimation.py"
+    local py_file=""
 
     while [[ $# -gt 0 ]]; do
         case $1 in
@@ -65,6 +68,12 @@ validate_args() {
     esac
 
     local py_file=$2
+
+    if [ ! -f $py_file ]; then
+        echo "$py_file is not a file! Exiting..." 1>&2
+        exit 1
+    fi
+
     case $py_file in
         *.py)
             ;;
@@ -81,6 +90,11 @@ extract_file_name() {
     echo ${file%.*}
 }
 
+if [ $# -lt 1 ]; then 
+    echo "Too few arguments [Expected at least 1, received $#]. Exiting..." 1>&2
+    exit 1
+fi
+
 # Input reading and parsing
 read RESOLUTION SHOW_PREVIEW PY_FILE <<< "$(parse_args "$@")"
 
@@ -90,9 +104,13 @@ validate_args $RESOLUTION $PY_FILE
 # Animation rendering
 render_manimation $PY_FILE $RESOLUTION $SHOW_PREVIEW
 
-if [ ! -d "./exports" ]; then
+if [ ! -d $EXPORTS_FOLDER ]; then
     create_export_folder
 fi
 
-FILE_TO_SEARCH=$(grep 'class *' $PY_FILE | )
+FILE_TO_SEARCH=$(grep -m 1 -o 'class *' $PY_FILE)
 echo $FILE_TO_SEARCH
+
+if [ find ./ -name ]; then
+
+fi
