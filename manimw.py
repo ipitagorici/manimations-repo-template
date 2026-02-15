@@ -13,16 +13,17 @@ from colorama import Fore
 from colorama import Style
 
 RATEOS = {
-    "16:9": "1920,1080",
-    "16:10": "1920,1200",
-    "9:16": "1080,1920"
+    "16:9": "1920,1080", # Default
+    "16:10": "1920,1200", # Theatres
+    "9:16": "1080,1920" # Smartphones
 }
 
 # Mapping Manim quality flags to folder names used in the media directory
+# The prefix of the folder names is given by the height of the resolution chosen
 QUALITY_MAP = {
-    "l": "1080p15",
-    "m": "1080p30",
-    "h": "1080p60"
+    "l": "p15",
+    "m": "p30",
+    "h": "p60"
 }
 
 LOG_LEVELS = {
@@ -96,8 +97,9 @@ def run_manim(source_path: Path, scene_name: str, args):
         
         # 1. Handle Sections if they were generated
         if use_sections:
+            width, height = RATEOS[args.ratio].split(",")
             # Path: media/videos/<filename_stem>/<quality_folder>/sections/
-            quality_folder = QUALITY_MAP.get(args.quality, "1080p30")
+            quality_folder = height + QUALITY_MAP[args.quality]
             section_src = media_dir / "videos" / source_path.stem / quality_folder / "sections"
             if section_src.exists():
                 dest_sec_dir = export_dir / scene_name
@@ -136,8 +138,8 @@ def main():
     parser.add_argument("file", nargs="?", help="Path to the manim .py file")
     parser.add_argument("scene", nargs="?", help="Specific Scene class")
     parser.add_argument("-a", "--all", action="store_true", help="Compile everything in src/")
-    parser.add_argument("-r", "--ratio", choices=["16:9", "16:10"], default="16:9")
-    parser.add_argument("-q", "--quality", default="m", choices=["l", "m", "h"], help=r"Choose the quality of the rendering {l: low, m: medium, h: high}")
+    parser.add_argument("-r", "--ratio", choices=RATEOS.keys(), default="16:9")
+    parser.add_argument("-q", "--quality", default="m", choices=QUALITY_MAP.keys(), help=r"Choose the quality of the rendering {l: low, m: medium, h: high}")
     parser.add_argument("-m", "--media", action="store_true", default=False, help="Choose to keep media/ folder (default: False)")
     args = parser.parse_args()
     
