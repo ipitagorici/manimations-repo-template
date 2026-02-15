@@ -13,12 +13,14 @@ La struttura intende seguire delle semplici regole di buonsenso per dare una buo
     curl -LsSf https://astral.sh/uv/install.sh | sh
     ```
 2. Assicurati di aver installato le dipendenze necessarie a `manim` per poter funzionare correttamente (i.e. su MacOS. `cairo`, `pkg-config`, consulta la [documentazione](https://docs.manim.community/en/stable/installation/uv.html) per le istruzioni di installazione personalizzate per il tuo OS.)
-    > [!IMPORTANT] 
-    > **Versione Python** — Versione di Python richiesta: 3.13 (vedasi il file [`.python-version`](.python-version))
+
+> [!IMPORTANT] 
+> **Versione Python** — Versione di Python richiesta: 3.13 (vedasi il file [`.python-version`](.python-version))
     
-    > [!IMPORTANT]
-    > **LaTex** — Anche se la guida ufficiale di Manim segnala LaTex come dipendenza opzionale per Manim, è caldamente consigliato installarlo in qualsiasi caso (altrimenti oggetti come `Tex` o `MathTex` non sono utilizzabili).
-    > - Ricorda: riavvia il sistema una volta installato tutto quanto!
+> [!IMPORTANT]
+> **LaTex** — Anche se la guida ufficiale di Manim segnala LaTex come dipendenza opzionale per Manim, è caldamente consigliato installarlo in qualsiasi caso (altrimenti oggetti come `Tex` o `MathTex` non sono utilizzabili).
+> - Ricorda: riavvia il sistema una volta installato tutto quanto!
+
 3. Una volta fatto, è possibile lanciare il seguente comando per verificare la correttezza delle installazioni effettuate:
 ```sh
 uv run manim checkhealth
