@@ -1,7 +1,7 @@
 [project]
 name = "custom-mobjects"
 version = "0.1.0"
-description = "Add your description here"
+description = "Custom Manim objects related to Pitagorici APS"
 readme = "README.md"
 authors = [
     { name = "Nickolausen", email = "nicholas.magi24@gmail.com" }
