@@ -75,7 +75,8 @@ uv run manimw.py -a -r 16:10
 Alcune note sullo script `manimw.py`:
 1. capisce autonomamente se la manimazione produce un video oppure un'immagine
 2. capisce autonomamente, qualora si trattasse di un video, se è diviso in sezioni (i.e. se viene fatto utilizzo di `self.next_section()` all'interno dello script)
-3. replica la struttura di cartelle di `src` in una nuova cartella `exports`
+3. riesce a renderizzare più scene contenute in un unico file
+4. replica la struttura di cartelle di `src` in una nuova cartella `exports`
 
 ## Struttura
 Alcune indicazioni generali:
