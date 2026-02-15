@@ -47,7 +47,7 @@ Per semplificare la compilazione è possibile utilizzare il wrapper di Manim `ma
 
 Le opzioni da riga di comando che il wrapper accetta sono visualizzabili digitando: 
 ```sh
-./manimw.py -h
+uv run ./manimw.py -h
 ```
 che produrrà un output simile:
 ```sh
@@ -67,13 +67,15 @@ options:
   -m, --media           Choose to keep media/ folder (default: False)
 ```
 
-> N.B.: se non è possibile eseguire il file, assicurarsi che sia effettivamente un eseguibile. Usare quindi il comando `chmod u+x ./manimw.py`.
+Ricorda di precedere **sempre** l'esecuzione dello script da `uv run`; i.e.:
+```sh
+uv run manimw.py -a -r 16:10
+```
 
 Alcune note sullo script `manimw.py`:
-1. non è necessario (ma si può comunque fare) eseguire lo script utilizzando `python3`
-2. capisce autonomamente se la manimazione produce un video oppure un'immagine
-3. capisce autonomamente, qualora si trattasse di un video, se è diviso in sezioni (i.e. se viene fatto utilizzo di `self.next_section()` all'interno dello script)
-4. replica la struttura di cartelle di `src` in una nuova cartella `exports`
+1. capisce autonomamente se la manimazione produce un video oppure un'immagine
+2. capisce autonomamente, qualora si trattasse di un video, se è diviso in sezioni (i.e. se viene fatto utilizzo di `self.next_section()` all'interno dello script)
+3. replica la struttura di cartelle di `src` in una nuova cartella `exports`
 
 ## Struttura
 Alcune indicazioni generali:

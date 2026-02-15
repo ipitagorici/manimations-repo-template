@@ -5,7 +5,12 @@ import subprocess
 import shutil
 import inspect
 import importlib.util
+from datetime import datetime
 from pathlib import Path
+
+from colorama import init as colorama_init
+from colorama import Fore
+from colorama import Style
 
 RATEOS = {
     "16:9": "1920,1080",
@@ -19,6 +24,20 @@ QUALITY_MAP = {
     "m": "1080p30",
     "h": "1080p60"
 }
+
+LOG_LEVELS = {
+    "ERROR": Fore.RED,
+    "WARNING": Fore.YELLOW,
+    "SUCCESS": Fore.GREEN,
+    "INFO": Fore.BLUE
+}
+
+def fatal(msg):
+    log("ERROR", msg)
+    raise SystemError()
+
+def log(level, msg):
+    print(f"{datetime.now().strftime("%H:%M:%S:%f")} [{LOG_LEVELS[level]}{str.upper(level)}{Style.RESET_ALL}] {msg}")
 
 def get_scene_classes(file_path):
     """
@@ -58,7 +77,7 @@ def run_manim(source_path: Path, scene_name: str, args):
     cmd = ["uv", "run", "manim", preview_flag] + res_args + [str(source_path), scene_name]
     
     print() # new line
-    print(f"🔺 Rendering {scene_name} from {source_path.name} {'(with sections)' if use_sections else ''}...")
+    log("INFO", f"Rendering '{scene_name}' from '{source_path.name}' {'(with sections)' if use_sections else ''}...")
     result = subprocess.run([c for c in cmd if c], capture_output=True)
 
     if result.returncode == 0:
@@ -87,7 +106,7 @@ def run_manim(source_path: Path, scene_name: str, args):
                 
                 # Move the entire sections folder to exports/<SceneName>/
                 shutil.move(str(section_src), str(dest_sec_dir))
-                print(f"✅ Saved sections to: {dest_sec_dir}")
+                log("SUCCESS", f"Saved sections to: {dest_sec_dir}")
                 return
         
         # Move the latest file matching the extension
@@ -107,10 +126,10 @@ def run_manim(source_path: Path, scene_name: str, args):
             latest_file = found_files[0]
             dest_path = export_dir / f"{scene_name}{latest_file.suffix}"
             shutil.move(str(latest_file), str(dest_path))
-            print(f"✅ Saved to: {dest_path}")
+            log("SUCCESS", f"Saved to: {dest_path}")
     else:
-        print(f"❌ Error rendering '{scene_name}'")
-        print(f"Reason: {result.stderr}")
+        log("ERROR", f"Error rendering '{scene_name}'")
+        log("ERROR", f"Reason: {str(result.stderr)}")
 
 def main():
     parser = argparse.ArgumentParser()
@@ -128,6 +147,11 @@ def main():
             print("Error: 'src' directory not found.")
             return
 
+        # Previous exports cleanup
+        if Path("exports").exists() and not args.media:
+            shutil.rmtree("exports")
+            log("WARNING", "Previous exports removed.")
+        
         py_files = list(src_dir.glob("**/*.py"))
         for py_file in py_files:
             # Skip dunder files
@@ -137,18 +161,18 @@ def main():
 
             for scene in scenes:
                 run_manim(py_file, scene, args)
-            
+        
     elif args.file:
         scene = args.scene if args.scene else get_scene_classes(Path(args.file))[0]
         run_manim(Path(args.file), scene, args)
     else:
-        print("Please provide a file or use --all")
-        return
+        fatal("Please provide a file or use --all")
 
     # Final cleanup
     if Path("media").exists() and not args.media:
         shutil.rmtree("media")
-        print("\n🧹 Media folder cleared.")
+        log("INFO", "Media folder cleared.")
 
 if __name__ == "__main__":
+    colorama_init()
     main()
