@@ -9,9 +9,10 @@ La struttura intende seguire delle semplici regole di buonsenso per dare una buo
 1. Questo progetto utilizza `uv` (doc. ufficiale: https://docs.astral.sh/uv/) come project manager di Python.
     - installalo guardando la documentazione ufficiale oppure tramite il seguente comando:
 
-    ```sh
-    curl -LsSf https://astral.sh/uv/install.sh | sh
-    ```
+```sh
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
 2. Assicurati di aver installato le dipendenze necessarie a `manim` per poter funzionare correttamente (i.e. su MacOS. `cairo`, `pkg-config`, consulta la [documentazione](https://docs.manim.community/en/stable/installation/uv.html) per le istruzioni di installazione personalizzate per il tuo OS.)
 
 > [!IMPORTANT] 
