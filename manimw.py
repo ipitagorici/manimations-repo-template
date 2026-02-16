@@ -48,7 +48,7 @@ def get_scene_classes(file_path):
     scenes = []
     with open(file_path, "r") as f:
         content = f.read()
-        # Look for 'class Name(Scene):' or 'class Name(other):'
+        # Look for 'class Name(Scene)' (or, generally, a class wich inherits from a class whose name contains "Scene")
         # This is a simple regex approach to avoid complex imports
         import re
         matches = re.findall(r"class\s+(\w+)\s*\((?:\w*Scene\w*)\)", content)
