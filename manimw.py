@@ -150,7 +150,7 @@ def main():
             return
 
         # Previous exports cleanup
-        if Path("exports").exists() and not args.media:
+        if Path("exports").exists():
             shutil.rmtree("exports")
             log("WARNING", "Previous exports removed.")
         
